@@ -1,0 +1,54 @@
+#!/bin/bash
+
+set -e
+
+VERSION=v0.8.1
+
+help() {
+  echo "Usage:"
+  echo "  zmicro package install duf <args...>"
+  echo ""
+}
+
+install() {
+  local arch="$(os::arch)"
+  local os="linux"
+  local bin_path=/usr/bin
+
+  if [ "$(os::is_macos)" = "true" ]; then
+    os="Darwin"
+    bin_path=/usr/local/bin
+
+    if [ "$arch" = "amd64" ]; then
+      arch="x86_64"
+    fi
+  fi
+
+  local tmp_file=/tmp/duf.tar.gz
+
+  local url="https://github.com/muesli/duf/releases/download/${VERSION}/duf_${VERSION}_${os}_${arch}.tar.gz"
+  curl -fSL $url -o $tmp_file
+
+  cd /tmp
+  tar -zxvf $tmp_file >>/dev/null 2>&1
+
+  sudo mv duf $bin_path
+
+  rm -rf $tmp_file
+}
+
+core() {
+  if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+    help
+    exit 0
+  fi
+
+  install
+  log::success "install duf success."
+}
+
+run() {
+  core $@
+}
+
+run $@

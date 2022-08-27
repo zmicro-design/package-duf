@@ -1,0 +1,17 @@
+#!/bin/bash
+
+help() {
+  echo "Usage:"
+  echo "  zmicro duf <args ...>"
+  echo ""
+}
+
+core() {
+  duf "$@"
+}
+
+run() {
+  core "$@"
+}
+
+run "$@"
