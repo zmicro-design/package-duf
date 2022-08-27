@@ -26,7 +26,7 @@ install() {
 
   local tmp_file=/tmp/duf.tar.gz
 
-  local url="https://github.com/muesli/duf/releases/download/${VERSION}/duf_${VERSION}_${os}_${arch}.tar.gz"
+  local url="https://github.com/muesli/duf/releases/download/${VERSION}/duf_${VERSION:1}_${os}_${arch}.tar.gz"
   curl -fSL $url -o $tmp_file
 
   cd /tmp
